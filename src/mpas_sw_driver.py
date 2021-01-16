@@ -1,6 +1,5 @@
 import numpy as np
 import netCDF4 as nc
-import h5py as h5
 
 from scipy import interpolate
 
@@ -254,38 +253,53 @@ def insert_huv(lat, lon, h, u, v):
 
     return [uedge, hcell]
     
-def run_sw_fwd(pt=0.):
-    nml=namelist()
+def run_sw_fwd():
+    nml=namelist(nmlname='namelist.sw.x1.10242')
     read_configs(nml)
     read_dims(nml)
     read_vars(nml)
     
     initial_conditions(nml)
-    mpsw.u[0]*=(1.+pt)
-    mpsw.h[0]*=(1.+pt)
     mpsw.sw_mpas_init_block()
 
     clock_start, clock_end=clock_namelist(nml)
 
     today=clock_start
+    ulist, vlist, hlist=[], [], []
+    unorm=[]
     while today<=clock_end:
-        """
         if (today-clock_start).total_seconds()%nml.output_interval==0:
             print(today, mpsw.u[0].min(), mpsw.u[0].max())
-            ulist.append(mpsw.u[0].copy())
-            hlist.append(mpsw.h[0].copy())
-        """
+            ulist.append(mpsw.ureconstructzonal[0].copy())
+            vlist.append(mpsw.ureconstructmeridional[0].copy())
+            hlist.append(mpsw.h[0,0].copy())
+            unorm.append(mpsw.u[0,0].copy())
 
         mpsw.sw_rk4()
 
         today+=timedelta(seconds=int(mpsw.config_dt))
 
-    with h5.File('/Users/xtian/model-output/sw-fwd-out.h5', 'w') as outfile:
-        outfile.create_dataset('u', data=mpsw.u[0])
-        outfile.create_dataset('h', data=mpsw.h[0])
+    # Output your results
+    ulist, vlist, hlist=np.array(ulist), np.array(vlist), np.array(hlist)
+    unorm=np.array(unorm)
+
+    r2d=180./np.pi
+    with nc.Dataset(nml.file_output, 'w') as of:
+        of.createDimension('nCell', mpsw.latcell.shape[0])
+        of.createDimension('nTime', ulist.shape[0])
+        of.createVariable('latCell', 'f4', ('nCell'))[:]=mpsw.latcell*r2d
+        of.createVariable('lonCell', 'f4', ('nCell'))[:]=mpsw.loncell*r2d
+        of.createVariable('ux', 'f8', ('nTime', 'nCell'))[:]=ulist
+        of.createVariable('uy', 'f8', ('nTime', 'nCell'))[:]=vlist
+        of.createVariable('h',  'f8', ('nTime', 'nCell'))[:]=hlist
+
+        of.createDimension('nEdge', mpsw.latedge.shape[0])
+        of.createVariable('latEdge', 'f4', ('nEdge'))[:]=mpsw.latedge*r2d
+        of.createVariable('lonEdge', 'f4', ('nEdge'))[:]=mpsw.lonedge*r2d
+        of.createVariable('u', 'f8', ('nTime', 'nEdge'))[:]=unorm
 
 def run_sw_tlm(pt=1.E-3):
-    nml=namelist()
+    nml=namelist(nmlname='namelist.sw.x1.10242')
     read_configs(nml)
     read_dims(nml)
     read_vars(nml)
@@ -297,7 +311,6 @@ def run_sw_tlm(pt=1.E-3):
     # initializing TLM variables
     mpsw.u_tl[0]=mpsw.u[0]*pt
     mpsw.h_tl[0]=mpsw.h[0]*pt
-    
     # end initializing TLM variables
 
     clock_start, clock_end=clock_namelist(nml)
