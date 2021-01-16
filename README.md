@@ -1,8 +1,7 @@
 # MPAS-SW-TL-AD
 
-```diff
--NOTE: This library is still under active development, any suggestions and comments are greatly appreciated. It has been extensively tested with idealized and real atmosphere (ERA5 500 hPa) simulations.
-```
+> NOTE: This library is still under active development, any suggestions and comments are greatly appreciated. It has been extensively tested with idealized and real atmosphere (ERA5 500 hPa) simulations.
+
 
 ## Prerequisites
 ---
