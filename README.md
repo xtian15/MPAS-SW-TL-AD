@@ -14,8 +14,10 @@ This package includes the MPAS-Shallow Water dynamics under the Python-Fortran s
 ## Installation
 ---
 Run the following commands to compile the package:
-    `cd src`
-    `make`
+```bash
+    cd src
+    make
+```
 Successful compilation should have a module_sw_mpas.so or module_sw_mpas.*.so generated for future Python import.
 
 [1]: Tian, X. (2020). Evolutions of Errors in the Global Multiresolution Model for Prediction Across Scales - Shallow Water (MPAS-SW). *Q. J. Royal Meteorol. Soc.*, [https://doi.org/10.1002/qj.3923](https://doi.org/10.1002/qj.3923)
