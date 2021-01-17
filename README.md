@@ -14,8 +14,8 @@ This package includes the MPAS-Shallow Water dynamics under the Python-Fortran s
 ### Installation
 Run the following commands to compile the package:
 ```bash
-    cd src
-    make
+cd src
+make
 ```
 Successful compilation should have a `module_sw_mpas.so` or `module_sw_mpas.*.so` generated for future Python imports.
 
