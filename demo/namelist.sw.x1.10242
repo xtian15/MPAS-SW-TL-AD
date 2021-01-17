@@ -1,0 +1,28 @@
+&sw_model
+    config_test_case = 7
+    config_time_integration = 'RK4'
+    config_dt = 900.
+    config_calendar_type = 'gregorian_noleap'
+    config_start_time = '2020-01-01_00:00:00'
+    config_run_duration = '01_00:00:00'
+    config_stats_interval = 100
+    config_h_ScaleWithMesh = false
+    config_h_mom_eddy_visc2 = 0.1
+    config_h_mom_eddy_visc4 = 0.1
+    config_h_tracer_eddy_diff2 = 0.0
+    config_h_tracer_eddy_diff4 = 0.0
+    config_thickness_adv_order = 2
+    config_tracer_adv_order = 2
+    config_positive_definite = false
+    config_monotonic = false
+    config_wind_stress = false
+    config_bottom_drag = false
+    config_apvm_upwinding = 0.5
+    config_num_halos = 2
+/
+&io
+    eraname = '20200101.nc'
+    input = 'x1.10242.grid.nc'
+    output= 'x1.10242.output.nc'
+    output_interval= '01:00:00'
+/
