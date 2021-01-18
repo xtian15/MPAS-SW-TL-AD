@@ -4,7 +4,7 @@
 
 ---
 ### Prerequisites
-* [Anaconda](https://www.anaconda.com/) (recommended)
+* [Python, numpy, scipy, pandas](https://www.anaconda.com/) (Anaconda recommended)
 * [F90Nml](https://pypi.org/project/f90nml/)
 * [netCDF4](https://pypi.org/project/netCDF4/)
 
