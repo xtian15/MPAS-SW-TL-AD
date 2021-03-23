@@ -10,6 +10,6 @@ ${LIB}:		mpas_sw_module.f90 mpas_sw_testcases.f90 mpas_sw_dyncore.f90 mpas_sw_op
 grid2mpas.so:	grid2mpas.f90
 		${FC} -m grid2mpas -c grid2mpas.f90
 clean:
-		rm -r ${LIB} ${LIB}.dSYM
+		rm -r ${LIB} ${LIB}.dSYM grid2mpas.so
 pyclean:
 		rm *.pyc
