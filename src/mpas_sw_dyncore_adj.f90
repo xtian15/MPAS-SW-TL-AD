@@ -110,7 +110,7 @@ subroutine sw_compute_solve_diagnostics_adj(dt, nCells, nEdges, nVertices, &
   boundaryCell(:,:) = 0
   do iEdge = 1, nEdges
      do k = 1, nVertLevels
-        if(boundaryEdge(k,iEdge).eq.1) then
+        if(boundaryEdge(k,iEdge)==1) then
            cell1 = cellsOnEdge(1,iEdge)
            cell2 = cellsOnEdge(2,iEdge)
            boundaryCell(k,cell1) = 1
@@ -395,7 +395,7 @@ subroutine sw_compute_solve_diagnostics_adj(dt, nCells, nEdges, nVertices, &
                  h_edge_ad(k,iEdge)=0.
               end if
 
-              if(boundaryCell(k,cell1) .eq. 0 .and. boundaryCell(k,cell2) .eq. 0) then
+              if(boundaryCell(k,cell1) == 0 .and. boundaryCell(k,cell2) == 0) then
                  do i=nEdgesOnCell(cell2), 1, -1
                     h_ad(k, cellsOnCell(i,cell2))=h_ad(k, cellsOnCell(i,cell2)) &
                          +deriv_two(i+1,2,iEdge)*d2fdx2_cell2_ad
@@ -428,7 +428,7 @@ subroutine sw_compute_solve_diagnostics_adj(dt, nCells, nEdges, nVertices, &
               h_ad(k,cell1)=h_ad(k,cell1) + 0.5*h_edge_ad(k,iEdge)
               h_edge_ad(k,iEdge)=0.
 
-              if (boundaryCell(k,cell1) .eq. 0 .and. boundaryCell(k,cell2) .eq. 0) then
+              if (boundaryCell(k,cell1) == 0 .and. boundaryCell(k,cell2) == 0) then
                  do i = nEdgesOnCell(cell2), 1, -1
                     h_ad(k, cellsOnCell(i,cell2))=h_ad(k, cellsOnCell(i,cell2)) &
                          +deriv_two(i+1,2,iEdge)*d2fdx2_cell2_ad

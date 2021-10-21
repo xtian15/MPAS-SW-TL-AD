@@ -1,4 +1,6 @@
 src/*pyc
 src/*.so
 src/*.so.*
+src/__pycache__
 *~
+.idea

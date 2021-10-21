@@ -1,5 +1,5 @@
-import numpy as np
 import f90nml as fnl
+import json
 
 """
 Purpose:
@@ -14,7 +14,7 @@ Output:
 
 """
 
-nl_default=\
+nl_default = \
     {
         "sw_model": {
             "config_test_case": 5,
@@ -46,30 +46,28 @@ nl_default=\
         }
     }
 
+
 class namelist(object):
     def __init__(self, nmlname='namelist.sw'):
         # ----- reading namelist.atmosphere -----
         # initializing with default values
-        self.nlatm=nl_default # fnl.read(self.nmlname_default)
+        self.nlatm = nl_default  # fnl.read(self.nmlname_default)
 
         # replace default values with the customized
-        nl=fnl.read(nmlname)
+        nl = fnl.read(nmlname)
         for group in nl:
-            for config in nl[group]: self.nlatm[group][config]=nl[group][config]
+            for config in nl[group]:
+                self.nlatm[group][config] = nl[group][config]
         # ----- end reading namelist.atmosphere -----
 
-        self.file_t0=self.nlatm['io']['input']
-        self.file_output=self.nlatm['io']['output']
-        output_interval=self.nlatm['io']['output_interval']
-        
+        self.file_t0 = self.nlatm['io']['input']
+        self.file_output = self.nlatm['io']['output']
+        output_interval = self.nlatm['io']['output_interval']
+
         # ----- parsing time format -----
-        from datetime import timedelta
         from pandas import to_timedelta
-        self.output_interval=int((to_timedelta(output_interval)).total_seconds())
+        self.output_interval = int((to_timedelta(output_interval)).total_seconds())
         # ----- end reading streams.atmosphere -----
 
-if __name__=='__main__':
-    import json
-    nl=namelist(nmlname='namelist.sw.default')
-    print(json.dumps(nl.nlatm, indent=4))
-    
+    def __str__(self):
+        return json.dumps(self.nlatm, indent=4)
