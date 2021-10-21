@@ -71,3 +71,4 @@ class namelist(object):
 
     def __str__(self):
         return json.dumps(self.nlatm, indent=4)
+    
