@@ -97,7 +97,7 @@ subroutine sw_compute_solve_diagnostics_tlm(dt, nCells, nEdges, nVertices, &
   boundaryCell(:,:) = 0
   do iEdge = 1, nEdges
      do k = 1, nVertLevels
-        if(boundaryEdge(k,iEdge).eq.1) then
+        if(boundaryEdge(k,iEdge)==1) then
            cell1 = cellsOnEdge(1,iEdge)
            cell2 = cellsOnEdge(2,iEdge)
            boundaryCell(k,cell1) = 1
@@ -141,7 +141,7 @@ subroutine sw_compute_solve_diagnostics_tlm(dt, nCells, nEdges, nVertices, &
               d2fdx2_cell2 = 0.0
 
               !-- if not a boundary cell
-              if(boundaryCell(k,cell1) .eq. 0 .and. boundaryCell(k,cell2) .eq. 0) then
+              if(boundaryCell(k,cell1) == 0 .and. boundaryCell(k,cell2) == 0) then
 
                  d2fdx2_cell1_tl = deriv_two(1,1,iEdge) * h_tl(k,cell1)
                  d2fdx2_cell1 = deriv_two(1,1,iEdge) * h(k,cell1)
@@ -209,7 +209,7 @@ subroutine sw_compute_solve_diagnostics_tlm(dt, nCells, nEdges, nVertices, &
               d2fdx2_cell2 = 0.0
 
               !-- if not a boundary cell
-              if(boundaryCell(k,cell1) .eq. 0 .and. boundaryCell(k,cell2) .eq. 0) then
+              if(boundaryCell(k,cell1) == 0 .and. boundaryCell(k,cell2) == 0) then
 
                  d2fdx2_cell1_tl = deriv_two(1,1,iEdge) * h_tl(k,cell1)
                  d2fdx2_cell1 = deriv_two(1,1,iEdge) * h(k,cell1)

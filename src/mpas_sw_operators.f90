@@ -557,7 +557,7 @@ subroutine elgs (A,N,INDX)!{{{
      PI1 = 0.0
      DO I = J, N
         PI = ABS(A(INDX(I),J))/C(INDX(I))
-        IF (PI.GT.PI1) THEN
+        IF (PI>PI1) THEN
            PI1 = PI
            K   = I
         ENDIF
