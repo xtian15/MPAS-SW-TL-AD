@@ -369,6 +369,46 @@ subroutine mpas_reconstruct_2d(nCells, nEdges, maxEdges, nVertLevels, R3, &
 
 end subroutine mpas_reconstruct_2d!}}}
 
+subroutine mpas_reconstruct_2d_inverse(nCells, nEdges, nVertLevels, &
+     cellsOnEdge, angleEdge, u_ad, uZonal_ad, uMeridional_ad)
+   implicit none
+
+   integer, parameter :: RKIND  = selected_real_kind(12)
+
+   integer :: nCells, nEdges, nVertLevels, maxEdges
+   real (kind=RKIND), dimension(nVertLevels,nEdges) :: u_ad
+   real (kind=RKIND), dimension(nVertLevels,nCells) :: uZonal_ad
+   real (kind=RKIND), dimension(nVertLevels,nCells) :: uMeridional_ad
+   !logical, optional, intent(in) :: includeHalos
+
+   real (kind=RKIND), dimension(nEdges) :: angleEdge
+   integer, dimension(2,nEdges) :: cellsOnEdge
+
+   !f2py intent(in) nCells, nEdges, nVertLevels
+   !f2py intent(in) cellsOnEdge, angleEdge
+   !f2py intent(in) uZonal_ad, uMeridional_ad
+
+   !f2py intent(out) u_ad
+
+   ! local variable
+   logical :: includeHalosLocal
+   integer :: iCell,iEdge, i, cell1, cell2
+   real (kind=RKIND) :: uZ_ave, uM_ave
+
+
+   do iEdge = 1, nEdges
+      cell1=cellsOnEdge(1,iEdge)
+      cell2=cellsOnEdge(2,iEdge)
+
+      uZ_ave=0.5*(uZonal_ad(1,cell1)+uZonal_ad(1,cell2))
+      uM_ave=0.5*(uMeridional_ad(1,cell1)+uMeridional_ad(1,cell2))
+
+      u_ad(1,iEdge)=uZ_ave*cos(angleEdge(iEdge)) + uM_ave*sin(angleEdge(iEdge))
+
+   end do
+
+end subroutine
+
 
 subroutine mpas_rbf_interp_func_3D_plane_vec_const_dir_comp_coeffs(pointCount, &!{{{
      sourcePoints, unitVectors, destinationPoint, &
